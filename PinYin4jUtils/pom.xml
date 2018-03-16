@@ -2,16 +2,11 @@
   <modelVersion>4.0.0</modelVersion>
   <parent>
     <groupId>com.itheima</groupId>
-    <artifactId>bos_management</artifactId>
+    <artifactId>common_parent</artifactId>
     <version>0.0.1-SNAPSHOT</version>
   </parent>
-  <artifactId>bos_management_web</artifactId>
-  <packaging>war</packaging>
-  <dependencies>
-  	<dependency>
-  		<groupId>com.itheima</groupId>
-  		<artifactId>bos_management_service</artifactId>
-  		<version>0.0.1-SNAPSHOT</version>
-  	</dependency>
-  </dependencies>
+  <groupId>com.itheima</groupId>
+  <artifactId>PinYin4jUtils</artifactId>
+  <version>0.0.1-SNAPSHOT</version>
+  <description>存放工具类</description>
 </project>

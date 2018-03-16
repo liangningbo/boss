@@ -8,6 +8,7 @@
 		{ "id":"116", "pId":"11", "name":"管理分区", "page":"pages/base/sub_area.html"},
 		{ "id":"117", "pId":"11", "name":"管理定区/调度排班","page":"pages/base/fixed_area.html"},
 		{ "id":"118", "pId":"11", "name":"收派时间管理","page":"pages/base/take_time.html"},
+		
 		{ "id":"12", "pId":"0", "name":"受理"},
 		{ "id":"121", "pId":"12", "name":"业务受理" ,"page":"pages/take_delivery/order.html"},
 		{ "id":"122", "pId":"12", "name":"运单快速录入" ,"page":"pages/take_delivery/waybill_quick.html"},

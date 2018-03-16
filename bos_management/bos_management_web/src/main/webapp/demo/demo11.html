@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+	<title>Basic DataGrid - jQuery EasyUI Demo</title>
+	<link rel="stylesheet" type="text/css" href="../js/easyui/themes/default/easyui.css">
+	<link rel="stylesheet" type="text/css" href="../js/easyui/themes/icon.css">
+	
+	<script type="text/javascript" src="../js/jquery-1.8.3.js"></script>
+	<script type="text/javascript" src="../js/easyui/jquery.easyui.min.js"></script>
+	<script type="text/javascript" src="../js/easyui/locale/easyui-lang-zh_CN.js"></script>
+	<script type="text/javascript">
+	function show() {
+		$.messager.alert('我的消息','这是一个提示信息！','info');
+	}
+	function show1() {
+		$.messager.alert('我的消息','这是一个提示信息！','error');
+	}
+	function show2() {
+		$.messager.alert('我的消息','这是一个提示信息！','question');
+	}
+	function show3() {
+		$.messager.alert('我的消息','这是一个提示信息！','warning');
+	}
+	function confirm(){
+	$.messager.confirm('确认对话框', '您想要退出该系统吗？', function(r){
+		if (r){
+		    // 退出操作;
+		}
+	});
+	}
+
+	</script>
+</head>
+<body>
+		<a href="#" class="easyui-menubutton" onclick="show()"
+		 data-options="menu:'#mm1',iconCls:'icon-edit'">Edit</a></br>
+		 <a href="#" class="easyui-menubutton" onclick="show1()"
+		 data-options="menu:'#mm1',iconCls:'icon-edit'">error</a></br>
+		 <a href="#" class="easyui-menubutton" onclick="show2()"
+		 data-options="menu:'#mm1',iconCls:'icon-edit'">question</a></br>
+		 <a href="#" class="easyui-menubutton" onclick="show2()"
+		 data-options="menu:'#mm1',iconCls:'icon-edit'">warning</a></br>
+		 <a href="#" class="easyui-menubutton" onclick="confirm()"
+		 data-options="menu:'#mm1',iconCls:'icon-edit'">confirm</a></br>
+</body>
+</html>
