@@ -20,5 +20,7 @@ public interface AreaService {
 
     Page<Area> findAll(PageRequest pageRequest);
 
+    List<Area> findByQ(String q);
+
 }
   

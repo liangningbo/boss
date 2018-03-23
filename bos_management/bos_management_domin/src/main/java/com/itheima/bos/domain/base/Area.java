@@ -40,6 +40,10 @@ public class Area {
     public Long getId() {
         return id;
     }
+    
+    public String getName() {
+        return province+city+district;
+    }
 
     public void setId(Long id) {
         this.id = id;

@@ -16,4 +16,19 @@
   	<module>bos_management_dao</module>
   	<module>bos_management_web</module>
   </modules>
+    
+  <!-- <build>
+		<plugins>
+			指定Tomcat7
+			<plugin>
+				<groupId>org.apache.tomcat.maven</groupId>
+				<artifactId>tomcat7-maven-plugin</artifactId>
+				<version>2.2</version>
+				<configuration>
+					<port>8888</port>
+					<path>/bos_management_web</path>
+				</configuration>
+			</plugin>
+		</plugins>
+	</build> -->
 </project>

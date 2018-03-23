@@ -35,6 +35,58 @@
 				$('#customerWindow').window('open');
 			}
 			
+			function submitData() {
+				// 校验表单中必填项是否都已经填写了
+				var result = $("#fixedAreaForm").form("validate")
+				if (result) {
+					// 	提交表单
+					$("#fixedAreaForm").submit()
+				}
+			}
+			// 关联客户
+			function doCustomerAssociations() {
+				var rows = $("#grid").datagrid("getSelections")
+				if (rows.length == 1) {
+					//打开窗口
+					$('#customerWindow').window('open');
+					//清空节点中的数据
+					$("#noassociationSelect").empty();
+					$("#associationSelect").empty();
+					//发起请求查询未关联的客户
+					$.post("../../fixedAreaAction_findUnAssociatedCustomers.action",
+							function(data) {
+								for (var i = 0; i < data.length; i++) {
+									var id = data[i].id;
+									var username = data[i].username;
+									var telephone = data[i].telephone;
+
+									$("#noassociationSelect").append(
+											"<option value='"+id+"'>" + username + "["
+													+ telephone + "]</option>")
+								}
+
+							});
+
+					// 获取定区的ID
+					var id = rows[0].id;
+					//发起请求查询已关联到当前定区的客户
+					$.post("../../fixedAreaAction_findAssociatedCustomers.action",
+							"id=" + id, function(data) {
+								for (var i = 0; i < data.length; i++) {
+									var id = data[i].id;
+									var username = data[i].username;
+									var telephone = data[i].telephone;
+
+									$("#associationSelect").append(
+											"<option value='"+id+"'>" + username + "["
+													+ telephone + "]</option>")
+								}
+							})
+				} else {
+					$.messager.alert("提示", "您最多也只能选择一条数据进行操作", "warning")
+				}
+
+			}
 			//工具栏
 			var toolbar = [ {
 				id : 'button-search',	
@@ -60,7 +112,7 @@
 				id : 'button-association',
 				text : '关联客户',
 				iconCls : 'icon-sum',
-				handler : doAssociations
+				handler : doCustomerAssociations
 			},{
 				id : 'button-association-courier',
 				text : '关联快递员',
@@ -257,6 +309,7 @@
 				});
 				
 			}
+			
 		</script>
 	</head>
 
@@ -279,7 +332,7 @@
 		<div class="easyui-window" title="定区添加修改" id="addWindow" collapsible="false" minimizable="false" maximizable="false" style="top:20px;left:200px">
 			<div style="height:31px;overflow:hidden;" split="false" border="false">
 				<div class="datagrid-toolbar">
-					<a id="save" icon="icon-save" href="#" class="easyui-linkbutton" plain="true">保存</a>
+					<a id="save" onclick="submitData()" icon="icon-save" href="#" class="easyui-linkbutton" plain="true">保存</a>
 					</script>
 				</div>
 			</div>

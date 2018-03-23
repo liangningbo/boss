@@ -33,6 +33,7 @@ import com.fasterxml.jackson.core.sym.Name;
 import com.itheima.bos.domain.base.Courier;
 import com.itheima.bos.domain.base.Standard;
 import com.itheima.bos.service.CourierService;
+import com.itheima.bos.web.action.CommonAction;
 import com.opensymphony.xwork2.ActionSupport;
 import com.opensymphony.xwork2.ModelDriven;
 
@@ -48,14 +49,15 @@ import net.sf.json.JsonConfig;
 @ParentPackage("struts-default")
 @Controller
 @Scope(value = "prototype")
-public class CourierAction extends ActionSupport implements ModelDriven<Courier> {
-    private Courier model = new Courier();
+public class CourierAction extends CommonAction<Courier> {
+   
+   
 
-    @Override
-    public Courier getModel() {
-
-        // TODO Auto-generated method stub
-        return model;
+    public CourierAction() {
+          
+        super(Courier.class);  
+        // TODO Auto-generated constructor stub  
+        
     }
 
     @Autowired
@@ -65,21 +67,12 @@ public class CourierAction extends ActionSupport implements ModelDriven<Courier>
             @Result(name = "success", location = "/pages/base/courier.html", type = "redirect")})
     public String save() {
 
-        courierService.save(model);
+        courierService.save(getModel());
 
         return SUCCESS;
     }
 
-    private int rows;
-    private int page;
 
-    public void setRows(int rows) {
-        this.rows = rows;
-    }
-
-    public void setPage(int page) {
-        this.page = page;
-    }
 
     @Action(value = "CourierAction_pageQuery")
 
@@ -93,13 +86,13 @@ public class CourierAction extends ActionSupport implements ModelDriven<Courier>
 
                 List<Predicate> list = new ArrayList<>();
 
-                String courierNum = model.getCourierNum();
+                String courierNum = getModel().getCourierNum();
 
-                String company = model.getCompany();
+                String company = getModel().getCompany();
 
-                String type = model.getType();
+                String type = getModel().getType();
 
-                Standard standard = model.getStandard();
+                Standard standard = getModel().getStandard();
 
                 if (StringUtils.isNotEmpty(courierNum)) {
 
@@ -154,28 +147,12 @@ public class CourierAction extends ActionSupport implements ModelDriven<Courier>
         PageRequest pageRequest = new PageRequest(page - 1, rows);
 
         Page<Courier> page = courierService.findAll(specification, pageRequest);
-
-        long elements = page.getTotalElements();
-
-        List<Courier> list = page.getContent();
-
-        Map<String, Object> map = new HashMap<>();
-
-        map.put("total", elements);
-
-        map.put("rows", list);
-
+        
         JsonConfig jsonConfig = new JsonConfig();
-
+        
         jsonConfig.setExcludes(new String[] {"fixedAreas", "takeTime"});
-
-        String json = JSONObject.fromObject(map, jsonConfig).toString();
-
-        HttpServletResponse response = ServletActionContext.getResponse();
-
-        response.setContentType("application/action;charset=utf-8");
-
-        response.getWriter().write(json);
+        
+        page2json(page, jsonConfig);
 
         return NONE;
     }

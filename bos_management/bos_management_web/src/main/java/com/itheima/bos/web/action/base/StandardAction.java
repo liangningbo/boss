@@ -7,6 +7,7 @@ import java.util.Map;
 
 import javax.servlet.http.HttpServletResponse;
 
+import org.apache.poi.ss.formula.functions.T;
 import org.apache.struts2.ServletActionContext;
 import org.apache.struts2.convention.annotation.Action;
 import org.apache.struts2.convention.annotation.Namespace;
@@ -21,6 +22,7 @@ import org.springframework.stereotype.Controller;
 
 import com.itheima.bos.domain.base.Standard;
 import com.itheima.bos.service.StandardService;
+import com.itheima.bos.web.action.CommonAction;
 import com.opensymphony.xwork2.ActionSupport;
 import com.opensymphony.xwork2.ModelDriven;
 
@@ -36,15 +38,13 @@ import net.sf.json.JSONObject;
 @Namespace("/")
 @ParentPackage("struts-default")
 @Controller
-@Scope("prototype")
-public class StandardAction extends ActionSupport implements ModelDriven<Standard> {
-    private Standard model = new Standard();
+@Scope(value = "prototype")
+public class StandardAction extends CommonAction<Standard> {
 
-    @Override
-    public Standard getModel() {
+    public StandardAction() {
 
-        // TODO Auto-generated method stub
-        return model;
+        super(Standard.class);
+        // TODO Auto-generated constructor stub
     }
 
     @Autowired
@@ -54,66 +54,33 @@ public class StandardAction extends ActionSupport implements ModelDriven<Standar
             @Result(name = "success", location = "/pages/base/standard.html", type = "redirect")})
 
     public String save() {
-        
-        standardService.save(model);
+
+        standardService.save(getModel());
+
         return SUCCESS;
     }
 
-    private int rows;
-    private int page;
-
-    public void setRows(int rows) {
-        this.rows = rows;
-    }
-
-    public void setPage(int page) {
-        this.page = page;
-    }
-
     @Action(value = "StandardAction_pageQuery")
-    public String StandardAction_pageQuery() throws IOException {
+    public String pageQuery() throws IOException {
+
         PageRequest pageRequest = new PageRequest(page - 1, rows);
-        
+
         Page<Standard> page = standardService.findAll(pageRequest);
-        
-        long totalElements = page.getTotalElements();
-        
-        List<Standard> list = page.getContent();
-        
-        Map<String, Object> map = new HashMap<>();
-        
-        map.put("total", totalElements);
-        
-        map.put("rows", list);
-        
-        String json = JSONObject.fromObject(map).toString();
-        
-        HttpServletResponse response = ServletActionContext.getResponse();
-        
-        response.setContentType("application/json;charset=utf-8");
-        
-        response.getWriter().write(json);
-        
+
+        page2json(page, null);
+
         return NONE;
     }
-    
+
     @Action(value = "standard_findAll")
     public String standard_findAll() throws IOException {
-        
+
         Page<Standard> page2 = standardService.findAll(null);
-        
-        long elements = page2.getTotalElements();
-        
+
         List<Standard> list = page2.getContent();
-        
-      String json = JSONArray.fromObject(list).toString();
-      
-      HttpServletResponse response = ServletActionContext.getResponse();
-      
-      response.setContentType("application/json;charset=utf-8");
-      
-      response.getWriter().write(json);
-      
+
+        list2json(list, null);
+
         return NONE;
     }
 }
